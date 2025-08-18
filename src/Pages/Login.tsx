@@ -10,7 +10,7 @@ const Login: React.FC = () => {
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8080/api/google/redirect";
+    window.location.href = "https://djangofrontend.netlify.app/api/google/redirect";
   };
 
   return (
