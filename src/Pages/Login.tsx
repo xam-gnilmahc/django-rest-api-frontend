@@ -15,25 +15,27 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Left Side - Form */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-gradient-to-br from-green-50 via-green-100 to-green-200 p-10">
-        <div className="w-ful max-w-md   p-10 flex flex-col gap-8">
+      {/* Left Side */}
+      <div className="w-full md:w-1/2 flex justify-center items-center bg-gradient-to-br from-green-50 via-green-100 to-green-200 p-8">
+        <div className="w-full max-w-md p-8">
           {message && (
-            <p className="text-red-600 text-center font-medium">{message}</p>
+            <p className="text-red-600 text-center font-medium mb-4">
+              {message}
+            </p>
           )}
 
-          <h1 className="text-4xl font-extrabold text-green-900 text-center">
+          <h1 className="text-3xl font-bold text-green-900 text-center mb-2">
             Welcome Back
           </h1>
-          <p className="text-center text-green-700">
+          <p className="text-center text-green-700 mb-6">
             Sign in with your Google account to continue.
           </p>
 
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 font-semibold hover:bg-green-50 hover:shadow-md transition transform hover:scale-105"
+            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-green-100 transition-all duration-200"
           >
-            <svg
+           <svg
               className="w-6 h-6"
               viewBox="0 0 533.5 544.3"
               xmlns="http://www.w3.org/2000/svg"
@@ -78,100 +80,14 @@ const Login: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Side - Modern Illustration */}
-      <div className="hidden md:flex w-1/2 justify-center items-center bg-gradient-to-tr from-green-400 to-green-500 relative overflow-hidden">
-        <svg
-          className="w-3/4 h-3/4 animate-float"
-          viewBox="0 0 400 400"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Background Circle */}
-          {/* <circle cx="200" cy="200" r="200" fill="#00A859" opacity="0.1" /> */}
-
-          {/* Wallet */}
-          <rect
-            x="80"
-            y="180"
-            width="160"
-            height="100"
-            rx="20"
-            fill="#007F3F"
-          />
-          <rect x="80" y="180" width="160" height="40" rx="20" fill="#00C97D" />
-          <circle cx="220" cy="220" r="15" fill="#A8F7C1" />
-
-          {/* Credit card */}
-          <rect
-            x="120"
-            y="150"
-            width="160"
-            height="60"
-            rx="12"
-            fill="#00C97D"
-          />
-          <rect
-            x="120"
-            y="150"
-            width="160"
-            height="20"
-            rx="12"
-            fill="#1E7F3E"
-          />
-          <circle cx="260" cy="180" r="12" fill="#A8F7C1" />
-
-          {/* Receipt */}
-          <rect x="140" y="120" width="80" height="40" rx="8" fill="#A8F7C1" />
-          <line
-            x1="150"
-            y1="130"
-            x2="210"
-            y2="130"
-            stroke="#00A859"
-            strokeWidth="2"
-          />
-          <line
-            x1="150"
-            y1="140"
-            x2="210"
-            y2="140"
-            stroke="#00A859"
-            strokeWidth="2"
-          />
-
-          {/* Floating Dollar Coin */}
-          <circle
-            cx="300"
-            cy="100"
-            r="25"
-            fill="#A8F7C1"
-            className="shadow-lg"
-          />
-          <text
-            x="300"
-            y="105"
-            textAnchor="middle"
-            alignmentBaseline="middle"
-            fontSize="20"
-            fontWeight="bold"
-            fill="#00A859"
-          >
-            $
-          </text>
-        </svg>
+      {/* Right Side - Image */}
+      <div className="hidden md:flex w-1/2">
+        <img
+          src="yt.jpg"
+          alt="Login Illustration"
+          className="w-full h-full object-cover"
+        />
       </div>
-
-      {/* Float Animation */}
-      <style>
-        {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-          }
-          .animate-float {
-            animation: float 3s ease-in-out infinite;
-          }
-        `}
-      </style>
     </div>
   );
 };

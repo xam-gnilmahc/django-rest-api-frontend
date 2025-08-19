@@ -12,10 +12,7 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target as Node)
-      ) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
         setShowProfileMenu(false);
       }
     }
@@ -25,7 +22,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-between h-full px-4 bg-white">
+    <div className="flex items-center justify-between h-full px-6 w-full bg-gray-800 text-white">
       {/* Search */}
       <form onSubmit={handleSearch} className="flex gap-2 max-w-md w-full" role="search">
         <input
@@ -33,12 +30,12 @@ const Navbar: React.FC = () => {
           placeholder="Search..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-grow rounded border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="flex-grow rounded-full px-4 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
           aria-label="Search"
         />
         <button
           type="submit"
-          className="bg-gray-900 text-white px-4 rounded hover:bg-gray-300 transition"
+          className="bg-green-500 text-white px-4 rounded-full hover:bg-green-600 transition"
           aria-label="Submit search"
         >
           Search
@@ -49,11 +46,11 @@ const Navbar: React.FC = () => {
       <div className="relative ml-4" ref={profileRef}>
         <button
           onClick={() => setShowProfileMenu(!showProfileMenu)}
-          className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition"
+          className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-700 transition"
           aria-label="User Menu"
         >
           <svg
-            className="w-6 h-6 text-gray-700"
+            className="w-6 h-6 text-white"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
@@ -67,16 +64,16 @@ const Navbar: React.FC = () => {
         </button>
 
         {showProfileMenu && (
-          <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-md py-2 z-50">
+          <div className="absolute right-0 top-full mt-1 w-48 bg-gray-800 border border-gray-700 rounded-md shadow-md py-2 z-50">
             <a
               href="/profile"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
             >
               Profile
             </a>
             <a
               href="/setting"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
             >
               Settings
             </a>
@@ -85,7 +82,7 @@ const Navbar: React.FC = () => {
                 localStorage.removeItem("accessToken");
                 window.location.href = "/login";
               }}
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700"
             >
               Logout
             </button>
