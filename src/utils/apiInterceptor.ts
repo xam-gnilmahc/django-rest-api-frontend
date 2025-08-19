@@ -1,7 +1,7 @@
 // src/utils/apiInterceptor.ts
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = "https://django-rest-api-8c23.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
