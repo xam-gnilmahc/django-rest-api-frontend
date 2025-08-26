@@ -8,55 +8,46 @@ import Sidebar from "../layouts/Sidebar";
 
 const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const sidebarWidth = collapsed ? 64 : 200; // widths
+  const sidebarWidth = collapsed ? 64 : 200;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-900 text-white">
-      {/* Sidebar with framer-motion */}
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       <motion.aside
         animate={{ width: sidebarWidth }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-0 left-0 h-full bg-gray-800 border-r border-gray-700 shadow-sm z-20"
+        className="fixed top-0 left-0 h-full bg-white border-r border-gray-200 shadow-sm z-20"
       >
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       </motion.aside>
 
-      {/* Main content wrapper */}
       <motion.div
         animate={{ marginLeft: sidebarWidth }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="flex flex-col flex-1 bg-gray-900"
+        className="flex flex-col flex-1"
       >
-        {/* Navbar */}
         <motion.header
           animate={{
             left: sidebarWidth,
             width: `calc(100% - ${sidebarWidth}px)`,
           }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="fixed top-0 right-0 z-10 bg-gray-800 border-b border-gray-700 flex items-center"
+          className="fixed top-0 right-0 z-10 bg-white border-b border-gray-200 flex items-center"
           style={{ height: 64 }}
         >
           <Navbar />
         </motion.header>
 
-        {/* Main body */}
         <main className="mt-16 overflow-auto p-4 h-full">{children}</main>
       </motion.div>
     </div>
   );
 };
 
-// **ProtectedRoute component**
+// ProtectedRoute
 const ProtectedRoute: React.FC<{ component: React.FC }> = ({ component: Component }) => {
   const user = getUserFromToken();
   if (!user) return <Navigate to="/login" replace />;
-
-  return (
-    <ProtectedLayout>
-      <Component />
-    </ProtectedLayout>
-  );
+  return <ProtectedLayout><Component /></ProtectedLayout>;
 };
 
 const RouteComponent: React.FC = () => {
@@ -76,13 +67,7 @@ const RouteComponent: React.FC = () => {
         }
 
         if (isProtected) {
-          return (
-            <Route
-              key={idx}
-              path={path}
-              element={<ProtectedRoute component={Component} />}
-            />
-          );
+          return <Route key={idx} path={path} element={<ProtectedRoute component={Component} />} />;
         }
 
         return <Route key={idx} path={path} element={<Component />} />;

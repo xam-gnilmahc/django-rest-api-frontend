@@ -1,5 +1,22 @@
 import React, { useEffect, useState } from "react";
 
+const PaymentIcon: React.FC<{ className?: string }> = ({
+  className = "w-10 h-10 text-emerald-600",
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="2" y="5" width="20" height="14" rx="2" ry="2" />
+    <line x1="2" y1="10" x2="22" y2="10" />
+  </svg>
+);
+
 const Login: React.FC = () => {
   const [message, setMessage] = useState("");
 
@@ -10,32 +27,39 @@ const Login: React.FC = () => {
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "https://django-rest-api-8c23.onrender.com/api/google/redirect";
+    window.location.href = "http://127.0.0.1:8080/api/google/redirect";
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left Side */}
-      <div className="w-full md:w-1/2 flex justify-center items-center bg-gradient-to-br from-green-50 via-green-100 to-green-200 p-8">
-        <div className="w-full max-w-md p-8">
+      <div className="w-full md:w-1/2 flex justify-center items-center bg-gradient-to-br from-green-50 via-green-100 to-green-200 dark:from-gray-800 dark:via-gray-900 dark:to-black p-6">
+        <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl p-8 transition-colors duration-300">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <PaymentIcon />
+          </div>
+
+          {/* Error Message */}
           {message && (
-            <p className="text-red-600 text-center font-medium mb-4">
+            <p className="text-red-600 dark:text-red-400 text-center font-medium mb-4">
               {message}
             </p>
           )}
 
-          <h1 className="text-3xl font-bold text-green-900 text-center mb-2">
+          <h1 className="text-3xl font-bold text-center text-green-900 dark:text-green-100 mb-2">
             Welcome Back
           </h1>
-          <p className="text-center text-green-700 mb-6">
+          <p className="text-center text-green-700 dark:text-gray-400 mb-6">
             Sign in with your Google account to continue.
           </p>
 
+          {/* Google Login */}
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-green-100 transition-all duration-200"
+            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium shadow-sm hover:bg-green-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-green-500 transition-all duration-200"
           >
-           <svg
+            <svg
               className="w-6 h-6"
               viewBox="0 0 533.5 544.3"
               xmlns="http://www.w3.org/2000/svg"
@@ -60,18 +84,19 @@ const Login: React.FC = () => {
             Continue with Google
           </button>
 
-          <p className="mt-6 text-center text-sm text-green-600 select-none">
+          {/* Terms */}
+          <p className="mt-6 text-center text-sm text-green-600 dark:text-gray-400 select-none">
             By signing in, you agree to our{" "}
             <a
               href="#"
-              className="underline hover:text-green-700 transition-colors"
+              className="underline hover:text-green-700 dark:hover:text-green-400 transition-colors"
             >
               Terms of Service
             </a>{" "}
             and{" "}
             <a
               href="#"
-              className="underline hover:text-green-700 transition-colors"
+              className="underline hover:text-green-700 dark:hover:text-green-400 transition-colors"
             >
               Privacy Policy
             </a>
