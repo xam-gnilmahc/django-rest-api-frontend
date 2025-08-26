@@ -27,7 +27,7 @@ const Login: React.FC = () => {
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://127.0.0.1:8080/api/google/redirect";
+    window.location.href = "https://django-rest-api-8c23.onrender.com/api/google/redirect";
   };
 
   return (
