@@ -57,16 +57,18 @@ const Dashboard = () => {
     </div>
   );
 
-  const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
+  // Color palette for charts and stats
+  const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#f43f5e", "#22d3ee"];
+  const STATS_BG = ["#eef2ff","#d1fae5","#fef3c7","#fee2e2","#ede9fe","#cffafe"];
   const formatCurrency = (value: number) => `$${value.toFixed(2)}`;
 
   const stats = [
-    { title: "Total Earned", value: formatCurrency(logs.stats.total_earned), icon: <WalletIcon />, trend: "+12.3%", positive: true },
-    { title: "Total Transactions", value: logs.stats.total_transactions, icon: <TransactionIcon />, trend: "+8.2%", positive: true },
-    { title: "Avg Transaction", value: formatCurrency(logs.stats.average_transaction), icon: <WalletIcon />, trend: "+2.1%", positive: true },
-    { title: "Total Refunded", value: formatCurrency(logs.stats.total_refunded), icon: <RefundIcon />, trend: "-3.4%", positive: false },
-    { title: "Failed Transactions", value: logs.stats.failed_transactions, icon: <TransactionIcon />, trend: "+1.2%", positive: false },
-    { title: "Success Ratio", value: `${(logs.stats.success_ratio * 100).toFixed(2)}%`, icon: <WalletIcon />, trend: "+4.5%", positive: true },
+    { title: "Total Earned", value: formatCurrency(logs.stats.total_earned), icon: <WalletIcon />, trend: "+12.3%", positive: true, bg: STATS_BG[0] },
+    { title: "Total Transactions", value: logs.stats.total_transactions, icon: <TransactionIcon />, trend: "+8.2%", positive: true, bg: STATS_BG[1] },
+    { title: "Avg Transaction", value: formatCurrency(logs.stats.average_transaction), icon: <WalletIcon />, trend: "+2.1%", positive: true, bg: STATS_BG[2] },
+    { title: "Total Refunded", value: formatCurrency(logs.stats.total_refunded), icon: <RefundIcon />, trend: "-3.4%", positive: false, bg: STATS_BG[3] },
+    { title: "Failed Transactions", value: logs.stats.failed_transactions, icon: <TransactionIcon />, trend: "+1.2%", positive: false, bg: STATS_BG[4] },
+    { title: "Success Ratio", value: `${(logs.stats.success_ratio * 100).toFixed(2)}%`, icon: <WalletIcon />, trend: "+4.5%", positive: true, bg: STATS_BG[5] },
   ];
 
   const getGreeting = () => {
@@ -115,7 +117,7 @@ const Dashboard = () => {
         {stats.map((item, i) => (
           <div key={i} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition">
             <div className="flex justify-between items-start">
-              <div className={`p-2 rounded-lg ${item.positive ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+              <div className={`p-2 rounded-lg`} style={{ backgroundColor: item.bg }}>
                 {item.icon}
               </div>
               <span className={`text-xs font-medium ${item.positive ? 'text-green-600' : 'text-red-600'}`}>
@@ -155,10 +157,7 @@ const Dashboard = () => {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                 <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#6B7280" }} axisLine={false} tickLine={false} />
                 <YAxis tickFormatter={v => `$${v.toFixed(0)}`} tick={{ fill: "#6B7280", fontSize: 12 }} axisLine={false} tickLine={false} />
-                <Tooltip 
-                  formatter={value => [`$${(value as number).toFixed(2)}`, "Revenue"]}
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                />
+                <Tooltip formatter={value => [`$${(value as number).toFixed(2)}`, "Revenue"]} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
                 <Legend verticalAlign="top" height={36} />
                 <Bar dataKey="total_amount" fill={COLORS[0]} radius={[4, 4, 0, 0]} name="Revenue" />
                 <Bar dataKey="transaction_count" fill={COLORS[1]} radius={[4, 4, 0, 0]} name="Transactions" />
@@ -168,7 +167,7 @@ const Dashboard = () => {
         </div>
 
         {/* Payment Methods - 1/3 width */}
-        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+        <div className="xl:col-span-1 bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Payment Methods</h2>
             <MoreHorizontal size={20} className="text-gray-400 cursor-pointer" />
@@ -180,120 +179,21 @@ const Dashboard = () => {
                   data={logs.pie_chart}
                   dataKey="total"
                   nameKey="payment_gateway_name"
-                  cx="50%" cy="50%"
+                  cx="50%"
+                  cy="50%"
                   outerRadius={100}
                   innerRadius={60}
                   label={(entry) => `${entry.payment_gateway_name}: $${entry.total.toFixed(2)}`}
                 >
-                  {logs.pie_chart.map((_, idx) => (
+                  {logs.pie_chart.map((entry, idx) => (
                     <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  formatter={value => `$${(value as number).toFixed(2)}`}
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                />
-                <Legend 
-                  layout="vertical" 
-                  verticalAlign="middle" 
-                  align="right"
-                  wrapperStyle={{ paddingLeft: '20px' }}
-                />
+                <Tooltip formatter={value => `$${(value as number).toFixed(2)}`} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+                <Legend layout="vertical" verticalAlign="middle" align="right" wrapperStyle={{ paddingLeft: '10px' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
-        </div>
-      </div>
-
-      {/* BOTTOM CHARTS ROW */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Hourly Transactions */}
-        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">Hourly Transactions</h2>
-            <div className="flex items-center gap-1 text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-lg">
-              <Calendar size={16} />
-              Last 30 days
-            </div>
-          </div>
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={logs.hourly_transactions}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                <XAxis dataKey="hour" tick={{ fontSize: 12, fill: "#6B7280" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#6B7280", fontSize: 12 }} allowDecimals={false} axisLine={false} tickLine={false} />
-                <Tooltip 
-                  formatter={value => [`${value}`, "Transactions"]}
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="count" 
-                  stroke={COLORS[2]} 
-                  strokeWidth={3} 
-                  dot={{ r: 4, fill: COLORS[2] }} 
-                  activeDot={{ r: 6, fill: COLORS[2] }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Gateway Performance */}
-        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">Gateway Performance</h2>
-            <MoreHorizontal size={20} className="text-gray-400 cursor-pointer" />
-          </div>
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={logs.gateway_stats} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
-                <XAxis type="number" tick={{ fontSize: 12, fill: "#6B7280" }} axisLine={false} tickLine={false} />
-                <YAxis 
-                  type="category" 
-                  dataKey="payment_gateway_name" 
-                  tick={{ fontSize: 12, fill: "#6B7280" }} 
-                  axisLine={false} 
-                  tickLine={false} 
-                  width={100}
-                />
-                <Tooltip 
-                  formatter={value => typeof value === "number" ? value.toFixed(2) : value}
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                />
-                <Legend verticalAlign="top" height={36} />
-                <Bar dataKey="total" fill={COLORS[3]} name="Total Transactions" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="success" fill={COLORS[4]} name="Successful" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      {/* Notifications Panel */}
-      <div
-        ref={notifRef}
-        className={`fixed top-0 right-0 h-full w-80 sm:w-96 bg-white border-l border-gray-200 shadow-xl transform transition-transform duration-300 ease-in-out z-50
-        ${showNotifications ? "translate-x-0" : "translate-x-full"}`}
-      >
-        <div className="flex items-center justify-between px-6 py-4 border-b bg-white">
-          <h2 className="text-lg font-semibold text-gray-900">Notifications</h2>
-          <button onClick={() => setShowNotifications(false)} className="text-gray-500 hover:text-gray-700 p-1 rounded-lg hover:bg-gray-100">✕</button>
-        </div>
-        <div className="p-4 overflow-y-auto h-[calc(100%-65px)] space-y-3">
-          {Array(5).fill(null).map((_, idx) => (
-            <div key={idx} className="flex items-start gap-3 p-3 border border-gray-100 rounded-lg hover:bg-gray-50 transition-all">
-              <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold flex-shrink-0">
-                {ProfileIcon}
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">Payment received</p>
-                <p className="text-xs text-gray-500">John Doe completed a payment of $250</p>
-                <p className="text-xs text-gray-400 mt-1">Just now</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
