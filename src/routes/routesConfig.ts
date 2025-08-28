@@ -4,7 +4,7 @@ import Login from '../Pages/Login';
 import Profile from '../Pages/Profile';
 import NotFoundPage from "../Pages/NotFoundPage";
 import VerificationPage from '../Pages/VerificationPage';
-
+import Book from '../Pages/Book';
 interface RouteItem {
   name: string;
   path: string;
@@ -23,6 +23,11 @@ const routesConfig: RouteItem[] = [
     name: 'Login',
     path: '/login',
     component: Login,
+  },
+   {
+    name: 'book',
+    path: '/book',
+    component: Book,
   },
   {
     name: 'Profile',
